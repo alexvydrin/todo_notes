@@ -24,7 +24,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # if os.path.exists('geekshop/env.json'): #  файл с настройками должен существовать всегда
 with open('notes/env.json', 'r') as f:
     ENV = json.load(f)
-    DOMAIN_NAME = ENV['DOMAIN_NAME']
     # SECURITY WARNING: keep the secret key used in production secret!
     SECRET_KEY = ENV['SECRET_KEY']
 
