@@ -1,8 +1,7 @@
 from rest_framework.serializers import HyperlinkedModelSerializer
-from .models import NoteUser
-
+from .models import User
 
 class NoteUserModelSerializer(HyperlinkedModelSerializer):
     class Meta:
-        model = NoteUser
-        fields = ('username', 'firstname', 'lastname', 'email')
+        model = User
+        fields = ('username', 'first_name', 'last_name', 'email')

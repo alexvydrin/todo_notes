@@ -3,6 +3,7 @@
 __pycache__
 myvenv
 venv
+node_modules
 db.sqlite3
 database.cnf
 /static
