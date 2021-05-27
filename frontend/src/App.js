@@ -8,7 +8,6 @@ import Footer from './components/Footer.js'
 import Menu from "./components/Menu";
 
 
-
 class App extends React.Component {
 
     constructor(props) {
@@ -65,12 +64,6 @@ class App extends React.Component {
     //     }
     // )
     //}
-
-    //  <div className='content'>
-    //      <ProjectList users={this.state.projects}/>
-    //  </div>
-
-
 
     render() {
         return (
