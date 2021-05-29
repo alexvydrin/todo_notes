@@ -5,6 +5,9 @@ const UserItem = ({user}) => {
     return (
         <tr>
             <td>
+                {user.id}
+            </td>
+            <td>
                 {user.username}
             </td>
             <td>
@@ -24,6 +27,9 @@ const UserList = ({users}) => {
     return (
         <table>
             <th>
+                id
+            </th>
+            <th>
                 User name
             </th>
             <th>
@@ -39,6 +45,5 @@ const UserList = ({users}) => {
         </table>
     )
 }
-
 
 export default UserList
