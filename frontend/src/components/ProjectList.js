@@ -1,11 +1,15 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 
 
 const ProjectItem = ({project}) => {
     return (
         <tr>
             <td>
-                {project.name}
+                {project.id}
+            </td>
+            <td>
+                <Link to={`project/${project.id}`}>{project.name}</Link>
             </td>
             <td>
                 {project.repository}
@@ -20,6 +24,9 @@ const ProjectItem = ({project}) => {
 const ProjectList = ({projects}) => {
     return (
         <table>
+            <th>
+                id
+            </th>
             <th>
                 Project name
             </th>

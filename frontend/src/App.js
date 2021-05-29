@@ -1,11 +1,22 @@
 import React from 'react';
-// import logo from './logo.svg';
 import './App.css';
 import axios from 'axios'
-import UserList from './components/User.js'
-import ProjectList from './components/Project.js';
+import UserList from './components/UserList.js'
+import ProjectList from './components/ProjectList.js';
+import TodoList from "./components/TodoList";
+import ProjectPage from "./components/ProjectPage";
 import Footer from './components/Footer.js'
 import Menu from "./components/Menu";
+import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom'
+
+
+const NotFound404 = ({location}) => {
+    return (
+        <div>
+            Not found: {location.pathname}
+        </div>
+    )
+}
 
 
 class App extends React.Component {
@@ -15,6 +26,7 @@ class App extends React.Component {
         this.state = {
             'users': [],
             'projects': [],
+            'todos': [],
         }
     }
 
@@ -22,7 +34,7 @@ class App extends React.Component {
         axios
             .get('http://127.0.0.1:8000/api/users')
             .then(response => {
-                const users = response.data
+                const users = response.data.results
                 this.setState(
                     {
                         'users': users
@@ -34,7 +46,7 @@ class App extends React.Component {
         axios
             .get('http://127.0.0.1:8000/api/projects')
             .then(response => {
-                const projects = response.data
+                const projects = response.data.results
                 this.setState(
                     {
                         'projects': projects
@@ -42,45 +54,46 @@ class App extends React.Component {
                 )
             })
             .catch(error => console.log(error))
+
+        axios
+            .get('http://127.0.0.1:8000/api/todos')
+            .then(response => {
+                const todos = response.data.results
+                this.setState(
+                    {
+                        'todos': todos
+                    }
+                )
+            })
+            .catch(error => console.log(error))
     }
 
-    // const users = [
-    //     {
-    //         'username': 'username_1',
-    //         'firstname': 'firstname_1',
-    //         'lastname': 'lastname_1',
-    //         'email': 'email_1'
-    //     },
-    //     {
-    //         'username': 'username_2',
-    //         'firstname': 'firstname_2',
-    //         'lastname': 'lastname_2',
-    //         'email': 'email_2'
-    //     },
-    // ]
-    // this.setState(
-    //     {
-    //         'users': users
-    //     }
-    // )
-    //}
 
     render() {
         return (
 
             <div className='wrapper'>
 
-                <Menu/>
+                <BrowserRouter>
 
-                <div className='content'>
-                    <UserList users={this.state.users}/>
-                </div>
+                    <Menu/>
 
-                <div className='content'>
-                    <ProjectList projects={this.state.projects}/>
-                </div>
+                    <div className='content'>
+                        <Switch>
+                            <Route exact path='/' component={() => <ProjectList projects={this.state.projects}/>}/>
+                            <Route exact path='/todos' component={() => <TodoList todos={this.state.todos}/>}/>
+                            <Route exact path='/users' component={() => <UserList users={this.state.users}/>}/>
+                            <Route path="/project/:id">
+                                <ProjectPage projects={this.state.projects}/>
+                            </Route>
+                            <Redirect from='/projects' to='/'/>
+                            <Route component={NotFound404}/>
+                        </Switch>
+                    </div>
 
-                <Footer/>
+                    <Footer/>
+
+                </BrowserRouter>
 
             </div>
 
@@ -89,3 +102,4 @@ class App extends React.Component {
 }
 
 export default App;
+
