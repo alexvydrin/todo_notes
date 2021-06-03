@@ -5,6 +5,8 @@ from rest_framework import status
 from .models import Project, Todo
 from .serializers import ProjectModelSerializer, TodoModelSerializer
 from django_filters import rest_framework as filters
+from django.http import HttpResponse
+import requests
 
 
 class ProjectLimitOffsetPagination(LimitOffsetPagination):
@@ -41,3 +43,11 @@ class TodoModelViewSet(ModelViewSet):
         todo.is_active = False
         todo.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+def test_token(request):
+    response = requests.post('http://127.0.0.1:8000/api-token-auth/',
+                             data={'username': 'test_token',
+                                   'password': 'token123'})
+    html = "<html><body>token= %s.</body></html>" % response.json()
+    return HttpResponse(html)
