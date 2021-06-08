@@ -8,5 +8,5 @@ from .serializers import UserModelSerializer
 # class UserModelViewSet(ModelViewSet):
 class UserCustomViewSet(mixins.UpdateModelMixin, mixins.ListModelMixin, mixins.RetrieveModelMixin, GenericViewSet):
     permission_classes = [permissions.IsAuthenticated]
-    queryset = User.objects.all()
+    queryset = User.objects.all().order_by("username")
     serializer_class = UserModelSerializer
