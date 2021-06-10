@@ -3,10 +3,11 @@ from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.response import Response
 from rest_framework import status
 from .models import Project, Todo
-from .serializers import ProjectModelSerializer, TodoModelSerializer
+from .serializers import ProjectModelSerializer, ProjectModelSerializerShort, TodoModelSerializer
 from django_filters import rest_framework as filters
 from django.http import HttpResponse
 import requests
+from rest_framework import generics
 
 
 class ProjectLimitOffsetPagination(LimitOffsetPagination):
@@ -21,11 +22,17 @@ class ProjectFilter(filters.FilterSet):
         fields = ['name']
 
 
-class ProjectModelViewSet(ModelViewSet):
+# class ProjectModelViewSet(ModelViewSet):
+class ProjectModelViewSet(ModelViewSet, generics.ListAPIView):
     queryset = Project.objects.all()
     serializer_class = ProjectModelSerializer
     pagination_class = ProjectLimitOffsetPagination
     filterset_class = ProjectFilter
+
+    def get_serializer_class(self):
+        if self.request.version == '2.0':
+            return ProjectModelSerializerShort
+        return ProjectModelSerializer
 
 
 class TodoLimitOffsetPagination(LimitOffsetPagination):
