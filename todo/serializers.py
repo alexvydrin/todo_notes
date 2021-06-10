@@ -15,6 +15,17 @@ class ProjectModelSerializer(ModelSerializer):
         fields = ('id', 'url', 'name', 'repository', 'users')
 
 
+class ProjectModelSerializerShort(ModelSerializer):
+
+    users = serializers.StringRelatedField(many=True)
+    # users = UserModelSerializer(many=True)
+
+    class Meta:
+        model = Project
+        # fields = '__all__'
+        fields = ('id', 'url', 'name', 'users')
+
+
 class TodoModelSerializer(ModelSerializer):
 
     user = UserModelSerializer()
