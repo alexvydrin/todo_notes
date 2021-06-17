@@ -7,6 +7,7 @@ const Menu = () => {
         <div className='menu'>
             <Link to='/projects'>Projects</Link>
             <Link to='/todos'>Todos</Link>
+            <Link to='/todos_graphql'>Todos (graphql)</Link>
             <Link to='/users'>Users</Link>
         </div>
     )

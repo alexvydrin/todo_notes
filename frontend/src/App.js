@@ -4,6 +4,7 @@ import axios from 'axios'
 import UserList from './components/UserList.js'
 import ProjectList from './components/ProjectList.js';
 import TodoList from "./components/TodoList";
+import TodoList_graphql from "./components/TodoList_graphql";
 import ProjectPage from "./components/ProjectPage";
 import Footer from './components/Footer.js'
 import Menu from "./components/Menu";
@@ -29,6 +30,7 @@ class App extends React.Component {
             'users': [],
             'projects': [],
             'todos': [],
+            'todos_graphql': [],
             'token': '',
         }
     }
@@ -116,6 +118,19 @@ class App extends React.Component {
                 )
             })
             .catch(error => console.log(error))
+
+        axios
+            .get('http://127.0.0.1:8000/graphql/?query={allTodos {id text isActive project {name} user {username}}}', {headers})
+            .then(response => {
+                const todos_graphql = response.data.data.allTodos
+                this.setState(
+                    {
+                        'todos_graphql': todos_graphql
+                    }
+                )
+            })
+            .catch(error => console.log(error))
+
     }
 
     componentDidMount() {
@@ -140,6 +155,7 @@ class App extends React.Component {
                         <Switch>
                             <Route exact path='/' component={() => <ProjectList projects={this.state.projects}/>}/>
                             <Route exact path='/todos' component={() => <TodoList todos={this.state.todos}/>}/>
+                            <Route exact path='/todos_graphql' component={() => <TodoList_graphql todos={this.state.todos_graphql}/>}/>
                             <Route exact path='/users' component={() => <UserList users={this.state.users}/>}/>
                             <Route exact path='/login' component={() => <LoginForm
                                 get_token={(username, password) => this.get_token(username, password)}/>}/>
