@@ -1,23 +1,30 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 
 
-const TodoItem = ({todo}) => {
-    return (
-        <tr>
-            <td>
-                {todo.id}
-            </td>
-            <td>
-                {todo.project.name}
-            </td>
-            <td>
-                {todo.text}
-            </td>
-            <td>
-                {todo.user.username}
-            </td>
-        </tr>
-    )
+const TodoItem = ({todo, deleteTodo}) => {
+    if (todo.is_active) {
+        return (
+            <tr>
+                <td>
+                    {todo.id}
+                </td>
+                <td>
+                    {todo.project.name}
+                </td>
+                <td>
+                    {todo.text}
+                </td>
+                <td>
+                    {todo.user.username}
+                </td>
+                <td>
+                    <button onClick={() => deleteTodo(todo.id)} type='button'>Delete</button>
+                </td>
+            </tr>
+        )
+    }
+    return ""
 }
 
 // <td>
@@ -30,23 +37,35 @@ const TodoItem = ({todo}) => {
 //     {todo.is_active}
 // </td>
 
-const TodoList = ({todos}) => {
+const TodoList = ({todos, deleteTodo}) => {
     return (
-        <table>
-            <th>
-                id
-            </th>
-            <th>
-                Project
-            </th>
-            <th>
-                Text
-            </th>
-            <th>
-                User
-            </th>
-            {todos.map((todo) => <TodoItem todo={todo}/>)}
-        </table>
+        <div>
+            <table>
+                <th>
+                    id
+                </th>
+                <th>
+                    Project
+                </th>
+                <th>
+                    Text
+                </th>
+                <th>
+                    User
+                </th>
+                <th>
+
+                </th>
+                {
+                    todos.map
+                    (
+                        (todo) => <TodoItem todo={todo} deleteTodo={deleteTodo}/>
+                    )
+                }
+
+            </table>
+            <Link to='/todos/create'>Create</Link>
+        </div>
     )
 }
 
